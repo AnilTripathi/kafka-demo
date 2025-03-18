@@ -1,7 +1,5 @@
 # kafka demo
 
-# documents
-
 ## Open Source Kafka Startup in local ##
 
 1. Start Zookeeper Server
