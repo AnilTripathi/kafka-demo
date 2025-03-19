@@ -3,6 +3,8 @@ package com.kafka.publisher.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kafka.publisher.demo.service.KafkaProducerService;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@RequestMapping("/kafka")
 @Tag(name = "Kafka Controller", description = "Operations to send message to Kafka topic")
 public class KafkaController {
 
@@ -20,6 +23,12 @@ public class KafkaController {
     @Autowired
     public KafkaController(KafkaProducerService kafkaProducerService) {
         this.kafkaProducerService = kafkaProducerService;
+    }
+
+    @PostMapping("/create-topic")
+    public String createTopic(@RequestParam String topicName,@RequestParam int partition,@RequestParam short replicationFactor) {
+        kafkaProducerService.createTopic(topicName, partition, replicationFactor);
+        return "Topic created: " + topicName;
     }
 
     @PostMapping("/send")
